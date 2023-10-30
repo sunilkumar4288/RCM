@@ -1,0 +1,38 @@
+# fly.toml app configuration file generated for researchcrm on 2023-09-05T11:04:23+05:30
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "researchcrm"
+primary_region = "sin"
+console_command = "php /var/www/html/artisan tinker"
+
+[build]
+  [build.args]
+    NODE_VERSION = "18"
+    PHP_VERSION = "8.2"
+
+[deploy]
+  release_command = "php /var/www/html/artisan migrate --force"
+
+[env]
+  APP_ENV = "production"
+  CACHE_DRIVER = "redis"
+  DB_DATABASE = "researchcrm"
+  DB_HOST = "aws.connect.psdb.cloud"
+  LOG_CHANNEL = "stderr"
+  LOG_LEVEL = "info"
+  LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  MYSQL_ATTR_SSL_CA = "/etc/ssl/certs/ca-certificates.crt"
+  REDIS_CACHE_DB = "0"
+  REDIS_URL = "redis://default:ae82e5816217431bbdef44fad1da4063@fly-researchcrm-redis.upstash.io"
+  SESSION_DRIVER = "cookie"
+  SESSION_SECURE_COOKIE = "true"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
